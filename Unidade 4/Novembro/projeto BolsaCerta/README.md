@@ -54,6 +54,8 @@ mensagem → [1 Perceptiva] → [2 Cognitiva] → [3 Decisória] → [4 Executiv
 
 Requer **Python 3.10+** e nenhuma biblioteca externa.
 
+**Windows, jeito mais fácil:** dê dois cliques em `iniciar.bat`. O chat abre no navegador sozinho (não feche a janela preta enquanto estiver usando).
+
 ```bash
 cd "Unidade 4/Novembro/projeto BolsaCerta"
 
