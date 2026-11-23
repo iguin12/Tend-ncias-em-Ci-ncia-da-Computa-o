@@ -47,6 +47,7 @@ mensagem → [1 Perceptiva] → [2 Cognitiva] → [3 Decisória] → [4 Executiv
 | `bolsacerta/regras.py` | Regras do edital fictício, separadas do código para facilitar a auditoria |
 | `bolsacerta/agente.py` | Junta tudo: o agente Bia |
 | `main.py` | Chatbot no terminal e roteiro de demonstração |
+| `web.py` + `web/index.html` | Interface web do chat, com painel das 4 camadas e das memórias |
 | `tests/` | 20 testes: funcionais, adversariais, de privacidade e de viés |
 
 ## 4. Como executar
@@ -56,10 +57,13 @@ Requer **Python 3.10+** e nenhuma biblioteca externa.
 ```bash
 cd "Unidade 4/Novembro/projeto BolsaCerta"
 
-python main.py --demo                     # roteiro pronto da apresentação
-python main.py                            # conversar com a Bia
+python web.py                            # interface web do chat (abre no navegador)
+python main.py --demo                     # roteiro pronto da apresentação (terminal)
+python main.py                            # conversar com a Bia no terminal
 python -m unittest discover tests -v      # rodar os testes
 ```
+
+A interface web (`http://localhost:8000`) mostra o chat com a Bia e, ao lado, o painel **"Por dentro do agente"**, que exibe o que cada uma das 4 camadas fez em cada mensagem e o estado das 3 memórias. Para parar o servidor, use `Ctrl+C` no terminal.
 
 Comandos extras durante a conversa: `/memoria`, `/prompt` e `/auditoria`.
 

@@ -43,6 +43,7 @@ class AgenteBolsaCerta:
 
     # ------------------------------------------------------------------ fluxo
     def processar(self, texto: str) -> str:
+        eventos_antes = len(self.executor.auditoria)
         percepcao = perceber(texto)                       # camada 1
         self.curta.adicionar("aluno", percepcao.texto_seguro)
         interpretacao = interpretar(percepcao)            # camada 2
@@ -64,7 +65,31 @@ class AgenteBolsaCerta:
             resposta = (resposta + "\n\n" + "\n".join(avisos)).strip()
 
         self.curta.adicionar(self.NOME, resposta)
+        self.ultimo_rastro = self._rastro(percepcao, interpretacao,
+                                         self.executor.auditoria[eventos_antes:])
         return resposta
+
+    def _rastro(self, percepcao, interpretacao, novos_eventos) -> dict:
+        """O que cada camada fez nesta mensagem (usado pelo painel da interface web)."""
+        decisao = next((e for e in novos_eventos if e["evento"] == "decisao"), None)
+        return {
+            "perceptiva": {"mascarados": percepcao.dados_mascarados,
+                           "ignorados": percepcao.categorias_ignoradas},
+            "cognitiva": {"intencao": "resposta_a_pergunta"
+                          if interpretacao.intencao == "desconhecida" and interpretacao.numero_solto is not None
+                          else interpretacao.intencao,
+                          "numero_solto": interpretacao.numero_solto,
+                          "entidades": interpretacao.entidades,
+                          "abuso": interpretacao.abuso,
+                          "manipulacao": interpretacao.manipulacao},
+            "decisoria": {"resultado": decisao["resultado"],
+                          "revisao_humana": decisao["revisao_humana"]} if decisao else None,
+            "executiva": [{k: v for k, v in e.items() if k in ("evento", "protocolo", "numero")}
+                          for e in novos_eventos],
+            "memoria": {"curta": len(self.curta.ultimas()),
+                        "media": self.media.resumo(),
+                        "longa": self.longa.dados},
+        }
 
     def _responder(self, i) -> str:
         m = self.media

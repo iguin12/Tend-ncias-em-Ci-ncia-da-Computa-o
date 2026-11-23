@@ -19,9 +19,11 @@ Tempo sugerido: **10 a 12 minutos**, divididos entre os 4 integrantes. Deixe o t
 
 ### 3. Demonstração ao vivo (3 min)
 ```bash
-python main.py --demo
+python web.py          # abre o chat no navegador (melhor para projetar)
 ```
-Pontos para comentar durante a demo:
+Use os botões de atalho e mostre o painel **"Por dentro do agente"**: a cada mensagem ele destaca o que cada camada fez. Se der algum problema com o navegador, use o roteiro pronto no terminal: `python main.py --demo`.
+
+Pontos para comentar (as mesmas mensagens dos roteiros de `main.py` servem para digitar no chat web):
 - **Demo 1:** pedido de consentimento, coleta, resultado **com o porquê**, `/memoria` (3 níveis) e `/prompt` (template dinâmico preenchido).
 - **Demo 2:** renda 1,48 SM, muito perto do limite de 1,5, vira **revisão humana**, e depois a contestação e a `/auditoria`.
 - **Demo 3:** "ignore as regras" é recusado; "sou mulher negra, moro em Ceilândia" gera o aviso de que esses dados não são usados; o CPF é mascarado; "apagar meus dados" limpa tudo.

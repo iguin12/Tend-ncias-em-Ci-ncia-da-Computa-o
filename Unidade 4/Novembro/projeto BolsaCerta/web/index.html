@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BolsaCerta – Bia</title>
+<style>
+  :root {
+    --bg: #eef2f7; --card: #ffffff; --tinta: #14213d; --suave: #5b6b82;
+    --azul: #1f4e9c; --azul-claro: #e6eefb; --verde: #2e7d4f; --verde-claro: #e5f4ea;
+    --laranja: #c2551b; --laranja-claro: #fdeee5; --borda: #d9e1ec;
+    --c1: #2b8fd6; --c2: #2c5aa0; --c3: #14213d; --c4: #2e7d4f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background: var(--bg); color: var(--tinta); }
+  header { background: var(--tinta); color: #fff; padding: 14px 24px; display: flex;
+           align-items: center; gap: 14px; }
+  header .logo { width: 38px; height: 38px; border-radius: 10px; background: var(--verde);
+                 display: grid; place-items: center; font-weight: 800; font-size: 18px; }
+  header h1 { font-size: 18px; margin: 0; }
+  header p { margin: 2px 0 0; font-size: 13px; color: #b9c4d6; }
+  header button { margin-left: auto; background: transparent; color: #fff; border: 1px solid #47556e;
+                  border-radius: 8px; padding: 8px 14px; cursor: pointer; font-size: 13px; }
+  header button:hover { background: #22304f; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px;
+         max-width: 1280px; margin: 20px auto; padding: 0 20px; height: calc(100vh - 110px); }
+
+  .chat { background: var(--card); border-radius: 16px; border: 1px solid var(--borda);
+          display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+  .topo-chat { padding: 14px 18px; border-bottom: 1px solid var(--borda); display: flex;
+               align-items: center; gap: 12px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--azul); color: #fff;
+            display: grid; place-items: center; font-weight: 700; flex-shrink: 0; }
+  .topo-chat strong { display: block; }
+  .topo-chat span { font-size: 12px; color: var(--verde); }
+  #mensagens { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 82%; padding: 10px 14px; border-radius: 14px; white-space: pre-wrap;
+         line-height: 1.45; font-size: 14.5px; animation: entra .18s ease-out; }
+  .bia { background: var(--azul-claro); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .aluno { background: var(--azul); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .msg.resultado { background: var(--verde-claro); border: 1px solid #bfe3cb; }
+  .msg.alerta { background: var(--laranja-claro); border: 1px solid #f4c9ad; }
+  .digitando { color: var(--suave); font-size: 13px; align-self: flex-start; }
+  @keyframes entra { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+
+  .atalhos { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 18px 0; }
+  .atalhos button { border: 1px solid var(--borda); background: #f7f9fc; color: var(--tinta);
+                    border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+  .atalhos button:hover { border-color: var(--azul); color: var(--azul); }
+  form { display: flex; gap: 10px; padding: 12px 18px 16px; }
+  input { flex: 1; border: 1px solid var(--borda); border-radius: 12px; padding: 12px 14px;
+          font-size: 15px; outline: none; }
+  input:focus { border-color: var(--azul); }
+  form button { background: var(--azul); color: #fff; border: 0; border-radius: 12px;
+                padding: 0 20px; font-weight: 600; cursor: pointer; }
+
+  .painel { overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+  .painel h2 { font-size: 15px; margin: 4px 0 0; color: var(--suave); font-weight: 600; }
+  .camada { background: var(--card); border: 1px solid var(--borda); border-left: 5px solid;
+            border-radius: 12px; padding: 12px 14px; transition: box-shadow .3s; }
+  .camada.ativa { box-shadow: 0 0 0 3px rgba(31, 78, 156, .15); }
+  .camada h3 { margin: 0 0 6px; font-size: 14px; display: flex; justify-content: space-between; }
+  .camada h3 small { font-weight: 400; color: var(--suave); }
+  .camada .conteudo { font-size: 13px; color: var(--suave); line-height: 1.5; }
+  .camada code { background: #f1f4f9; padding: 1px 6px; border-radius: 5px; color: var(--tinta);
+                 font-size: 12.5px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px;
+         margin: 2px 4px 2px 0; background: #f1f4f9; color: var(--tinta); }
+  .tag.verde { background: var(--verde-claro); color: var(--verde); }
+  .tag.laranja { background: var(--laranja-claro); color: var(--laranja); }
+  #c1 { border-left-color: var(--c1); } #c2 { border-left-color: var(--c2); }
+  #c3 { border-left-color: var(--c3); } #c4 { border-left-color: var(--c4); }
+  .memoria { background: var(--card); border: 1px solid var(--borda); border-radius: 12px;
+             padding: 12px 14px; font-size: 13px; color: var(--suave); line-height: 1.5; }
+  .memoria b { color: var(--tinta); }
+
+  @media (max-width: 860px) {
+    main { grid-template-columns: 1fr; height: auto; padding: 0 12px; }
+    .chat { height: 78vh; }
+    .msg { max-width: 92%; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">B</div>
+  <div>
+    <h1>BolsaCerta</h1>
+    <p>Agente de IA para bolsas e crédito estudantil · Tendências em Ciência da Computação</p>
+  </div>
+  <button id="reiniciar" title="Começar uma conversa nova">Nova conversa</button>
+</header>
+
+<main>
+  <section class="chat">
+    <div class="topo-chat">
+      <div class="avatar">Bia</div>
+      <div><strong>Bia</strong><span>● online · assistente virtual</span></div>
+    </div>
+    <div id="mensagens" aria-live="polite"></div>
+    <div class="atalhos">
+      <button data-t="Quero saber se tenho direito a bolsa">Simular bolsa</button>
+      <button data-t="Quais documentos preciso?">Documentos</button>
+      <button data-t="Até quando vão as inscrições?">Prazos</button>
+      <button data-t="Como funciona o crédito estudantil?">Crédito</button>
+      <button data-t="contestar">Contestar</button>
+      <button data-t="Quero falar com um atendente">Atendente</button>
+    </div>
+    <form id="form">
+      <input id="entrada" autocomplete="off" placeholder="Digite sua mensagem..." aria-label="Mensagem">
+      <button>Enviar</button>
+    </form>
+  </section>
+
+  <aside class="painel">
+    <h2>Por dentro do agente · o que cada camada fez</h2>
+    <div class="camada" id="c1"><h3>1. Perceptiva <small>percepcao.py</small></h3><div class="conteudo">—</div></div>
+    <div class="camada" id="c2"><h3>2. Cognitiva <small>cognicao.py</small></h3><div class="conteudo">—</div></div>
+    <div class="camada" id="c3"><h3>3. Decisória <small>decisao.py</small></h3><div class="conteudo">—</div></div>
+    <div class="camada" id="c4"><h3>4. Executiva <small>execucao.py</small></h3><div class="conteudo">—</div></div>
+    <h2>Memória</h2>
+    <div class="memoria" id="memoria">—</div>
+  </aside>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const NOMES = {renda_familiar: "renda", membros: "pessoas", semestre: "semestre", cr: "CR",
+               nome: "nome", protocolo: "protocolo"};
+
+function balao(texto, quem) {
+  const d = document.createElement("div");
+  d.className = "msg " + quem;
+  if (quem === "bia" && texto.startsWith("Resultado da simulação")) d.classList.add("resultado");
+  if (quem === "bia" && /Não consigo mudar|apaguei da conversa|não uso/.test(texto)) d.classList.add("alerta");
+  d.textContent = texto;
+  $("#mensagens").appendChild(d);
+  $("#mensagens").scrollTop = 1e9;
+}
+
+function painel(r) {
+  if (!r) return;
+  const p = r.perceptiva, c = r.cognitiva, d = r.decisoria, e = r.executiva;
+  let h = "Texto recebido e normalizado.";
+  if (p.mascarados.length) h += `<br><span class="tag laranja">mascarado: ${esc(p.mascarados.join(", "))}</span>`;
+  if (p.ignorados.length) h += `<br><span class="tag laranja">ignorado na decisão: ${esc(p.ignorados.join(", "))}</span>`;
+  $("#c1 .conteudo").innerHTML = h;
+
+  h = `Intenção: <code>${esc(c.intencao)}</code>`;
+  const ents = Object.entries(c.entidades);
+  if (ents.length) h += "<br>" + ents.map(([k, v]) => `<span class="tag">${esc(NOMES[k] || k)} = ${esc(v)}</span>`).join("");
+  if (!ents.length && c.numero_solto !== null) h += `<br><span class="tag">número = ${esc(c.numero_solto)} (usado na pergunta anterior)</span>`;
+  if (c.manipulacao) h += `<br><span class="tag laranja">tentativa de burlar regras</span>`;
+  if (c.abuso) h += `<br><span class="tag laranja">abuso verbal</span>`;
+  $("#c2 .conteudo").innerHTML = h;
+
+  $("#c3 .conteudo").innerHTML = d
+    ? `<span class="tag verde">${esc(d.resultado)}</span>` +
+      (d.revisao_humana ? `<span class="tag laranja">revisão humana</span>` : "")
+    : "Nenhuma decisão nesta mensagem.";
+
+  $("#c4 .conteudo").innerHTML = e.length
+    ? e.map(x => `<span class="tag">${esc(x.evento === "decisao" ? "protocolo " + x.protocolo
+                                    : "atendimento " + x.numero)}</span>`).join("") + "<br>Registrado na auditoria."
+    : "Nenhuma ação nesta mensagem.";
+
+  ["#c1", "#c2", d ? "#c3" : null, e.length ? "#c4" : null].forEach(id => {
+    if (!id) return;
+    const el = $(id); el.classList.add("ativa"); setTimeout(() => el.classList.remove("ativa"), 1200);
+  });
+
+  const longa = Object.keys(r.memoria.longa).length ? esc(JSON.stringify(r.memoria.longa)) : "(vazia)";
+  $("#memoria").innerHTML =
+    `<b>Curta:</b> ${r.memoria.curta} últimas trocas<br>` +
+    `<b>Média:</b> ${esc(r.memoria.media)}<br>` +
+    `<b>Longa:</b> ${longa}`;
+}
+
+async function enviar(texto, url = "/api/mensagem") {
+  if (texto) balao(texto, "aluno");
+  const dig = document.createElement("div");
+  dig.className = "digitando"; dig.textContent = "Bia está digitando…";
+  $("#mensagens").appendChild(dig);
+  try {
+    const resp = await fetch(url, {method: "POST", headers: {"Content-Type": "application/json"},
+                                   body: JSON.stringify({texto})});
+    const dados = await resp.json();
+    await new Promise(r => setTimeout(r, 350));
+    dig.remove();
+    balao(dados.resposta, "bia");
+    painel(dados.rastro);
+  } catch {
+    dig.remove();
+    balao("Não consegui falar com o servidor. Ele está rodando? (python web.py)", "bia");
+  }
+}
+
+$("#form").addEventListener("submit", ev => {
+  ev.preventDefault();
+  const t = $("#entrada").value.trim();
+  if (!t) return;
+  $("#entrada").value = "";
+  enviar(t);
+});
+document.querySelectorAll(".atalhos button").forEach(b => b.addEventListener("click", () => enviar(b.dataset.t)));
+$("#reiniciar").addEventListener("click", () => { $("#mensagens").innerHTML = ""; enviar("", "/api/reiniciar"); });
+
+enviar("", "/api/reiniciar");
+$("#entrada").focus();
+</script>
+</body>
+</html>
