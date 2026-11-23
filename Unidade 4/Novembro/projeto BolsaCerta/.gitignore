@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+memoria_longa.json
+auditoria.jsonl
