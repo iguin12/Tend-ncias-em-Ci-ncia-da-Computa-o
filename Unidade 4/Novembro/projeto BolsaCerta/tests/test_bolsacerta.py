@@ -85,6 +85,13 @@ class TestConversa(unittest.TestCase):
         self.assertNotIn("renda_familiar", bia.media.dados)
         self.assertIn("não vou usar", r[-1])
 
+    def test_semestre_invalido_e_correcao(self):
+        bia, r = conversa("quero bolsa", "sim", "R$ 3.000", "4", "7,5")
+        self.assertIn("inteiro", r[-1])
+        self.assertNotIn("semestre", bia.media.dados)
+        _, r = conversa("quero bolsa", "sim", "R$ 3.000", "4", "7", "na verdade 3º semestre", "7,5")
+        self.assertIn("Bolsa integral", r[-1])
+
     def test_transbordo_idk(self):
         _, r = conversa("qual o cardapio?", "e a biblioteca?")
         self.assertIn("ATD-", r[-1])

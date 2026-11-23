@@ -48,7 +48,7 @@ mensagem → [1 Perceptiva] → [2 Cognitiva] → [3 Decisória] → [4 Executiv
 | `bolsacerta/agente.py` | Junta tudo: o agente Bia |
 | `main.py` | Chatbot no terminal e roteiro de demonstração |
 | `web.py` + `web/index.html` | Interface web do chat, com painel das 4 camadas e das memórias |
-| `tests/` | 20 testes: funcionais, adversariais, de privacidade e de viés |
+| `tests/` | 21 testes: funcionais, adversariais, de privacidade e de viés |
 
 ## 4. Como executar
 

@@ -69,7 +69,7 @@ O sistema de recrutamento da Amazon aprendeu com 10 anos de currículos, a maior
 2. **Análise:** se muitas contestações vêm de um mesmo perfil (por exemplo, calouros), pode ser viés estrutural e não erro isolado.
 3. **Decisão:** ajustar a regra, criar exceção ou mandar o caso para humano.
 4. **Implementação:** testar a mudança num grupo primeiro (teste A/B).
-5. **Validação:** rodar de novo os 20 testes para garantir que nada quebrou.
+5. **Validação:** rodar de novo os 21 testes para garantir que nada quebrou.
 
 > Documentação de design = gestão de risco (Carraro, 2023). Por isso cada escolha está comentada no código.
 

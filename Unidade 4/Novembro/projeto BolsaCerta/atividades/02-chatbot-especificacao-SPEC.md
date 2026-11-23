@@ -119,7 +119,7 @@ Bia:   Resultado da simulação: Bolsa integral (100%)
 | 6 | Aluno manda CPF | CPF mascarado | `test_cpf_e_mascarado` |
 | 7 | Mesmo caso com gênero, raça ou região diferentes | Mesmo resultado | `test_contrafactual_vies` |
 
-Para rodar: `python -m unittest discover tests` (são 20 testes).
+Para rodar: `python -m unittest discover tests` (são 21 testes).
 
 ## Implementação
 

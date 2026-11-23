@@ -235,7 +235,15 @@ class AgenteBolsaCerta:
 
         if i.numero_solto is not None and m.campo_pendente and m.campo_pendente not in novos:
             valor = i.numero_solto
-            novos[m.campo_pendente] = int(valor) if m.campo_pendente in ("membros", "semestre") else valor
+            if m.campo_pendente in ("membros", "semestre"):
+                if valor != int(valor):
+                    return (f"Esse valor não parece um número de {NOMES_CAMPOS[m.campo_pendente]} "
+                            f"(precisa ser inteiro). {PERGUNTAS[m.campo_pendente]}")
+                valor = int(valor)
+            novos[m.campo_pendente] = valor
+
+        if "semestre" in novos and not 1 <= novos["semestre"] <= 12:
+            return "O semestre precisa estar entre 1 e 12. Em qual semestre você está?"
 
         if "cr" in novos and not 0 <= novos["cr"] <= 10:
             return "O CR vai de 0 a 10. Pode conferir e me mandar de novo?"
